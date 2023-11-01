@@ -3,8 +3,18 @@ const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
   path: '/peerjs',
   host: '/',
-  port: '443'
-})
+  port: '443',
+  config: {
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' }, // Google's public STUN server
+      {
+        urls: "turn:a.relay.metered.ca:80",
+        username: "1d58dc82e6799dde31d6723d",
+        credential: "e6+poNAQkZ9m/22y",
+      }
+    ]
+  }
+});
 let myVideoStream;
 const myVideo = document.createElement('video')
 myVideo.muted = true;
