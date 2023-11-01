@@ -66,6 +66,52 @@
 
       peers[userId] = peer;
     }
+    function connectToNewUser(userId, stream) {
+  const peer = new SimplePeer({
+    initiator: true,
+    trickle: false,
+    stream,
+    config: configuration,
+  });
+
+  peer.on('signal', (data) => {
+    socket.emit('join-room', ROOM_ID, { userId, signalData: data });
+  });
+
+  socket.on('user-connected', (user) => {
+    if (user.userId === userId && !peers[userId]) {
+      const remoteVideo = document.createElement('video');
+      document.getElementById('remote-videos').appendChild(remoteVideo);
+
+      const newPeer = new SimplePeer({
+        initiator: false,
+        trickle: false,
+        stream,
+        config: configuration,
+      });
+
+      newPeer.on('signal', (signalData) => {
+        socket.emit('join-room', ROOM_ID, { userId, signalData });
+      });
+
+      newPeer.on('stream', (remoteStream) => {
+        remoteVideo.srcObject = remoteStream;
+        remoteVideo.autoplay = true;
+      });
+
+      newPeer.signal(user.signalData);
+      peers[userId] = newPeer;
+    }
+  });
+
+  peer.on('close', () => {
+    if (peers[userId]) {
+      peers[userId].destroy();
+      delete peers[userId];
+    }
+  });
+}
+
   </script>
 </body>
 
