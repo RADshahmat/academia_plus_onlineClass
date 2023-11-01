@@ -12,7 +12,8 @@ const myPeer = new Peer(undefined, {
         username: "1d58dc82e6799dde31d6723d",
         credential: "e6+poNAQkZ9m/22y",
       }
-    ]
+    ],
+    maxConnections: 10
   }
 });
 let myVideoStream;
