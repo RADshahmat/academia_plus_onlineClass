@@ -59,6 +59,7 @@ socket.on('user-disconnected', userId => {
     if (videoElement) {
       peers[userId].on('close', () => {
         videoElement.remove();
+        videoElement.style.display="none";
       });
     }
   }
