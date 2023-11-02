@@ -25,21 +25,21 @@ app.get('/:room', (req, res) => {
 
 io.on('connection', socket => {
   socket.on('join-room', (roomId, userId) => {
-    socket.join(roomId)
+    socket.join(roomId);
     socket.to(roomId).emit('user-connected', userId);
-    // messages
-    socket.on('message', (message) => {
-      //send message to the same room
-      io.to(roomId).emit('createMessage', message)
-  }); 
 
-  socket.on('disconnect', () => {
-    const room = Object.keys(socket.rooms)[1]; // Get the roomId from socket.rooms object
-    const userId = socket.id; // Get the userId from socket.id
-    socket.to(room).emit('user-disconnected', userId);
+    // Handle message events
+    socket.on('message', message => {
+      io.to(roomId).emit('createMessage', message);
+    });
+
+    // Handle disconnect event
+    socket.on('disconnect', () => {
+      io.to(roomId).emit('user-disconnected', userId);
+      socket.leave(roomId); // Make sure the socket leaves the room
+    });
   });
-  
-  })
-})
+});
+
 
 server.listen(process.env.PORT||3030)
