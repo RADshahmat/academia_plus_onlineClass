@@ -33,6 +33,12 @@ io.on('connection', socket => {
       io.to(roomId).emit('createMessage', message);
     });
 
+    socket.on('disconnecting', () => {
+      const room = Object.keys(socket.rooms)[1]; // Get the roomId from socket.rooms object
+      const userId = socket.id; // Get the userId from socket.id
+      socket.to(room).emit('user-disconnected', userId);
+      socket.leave(room); // Make sure the socket leaves the room
+    });
     // Handle disconnect event
     socket.on('disconnect', () => {
       io.to(roomId).emit('user-disconnected', userId);
