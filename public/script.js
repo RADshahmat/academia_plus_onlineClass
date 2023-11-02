@@ -57,10 +57,14 @@ socket.on('user-disconnected', userId => {
     peers[userId].close();
     const videoElement = document.querySelector(`#${userId}`);
     if (videoElement) {
-      videoElement.remove();
+      setTimeout(() => {
+        videoElement.remove();
+      }, 500); // You can adjust the delay (in milliseconds) as needed
     }
   }
 });
+
+
 
 
 myPeer.on('open', id => {
