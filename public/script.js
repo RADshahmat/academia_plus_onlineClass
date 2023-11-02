@@ -52,6 +52,18 @@ navigator.mediaDevices.getUserMedia({
   })
 })
 
+window.addEventListener('beforeunload', () => {
+  // Notify the server that the user is disconnecting
+  socket.emit('disconnecting', ROOM_ID);
+});
+
+// ...
+
+socket.on('disconnecting', roomId => {
+  // Handle the user disconnecting event from the server
+  socket.to(roomId).emit('user-disconnected', myPeer.id);
+});
+
 socket.on('user-disconnected', userId => {
   if (peers[userId]) {
     peers[userId].close(); // Close the peer connection
