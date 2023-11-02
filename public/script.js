@@ -55,14 +55,15 @@ navigator.mediaDevices.getUserMedia({
 socket.on('user-disconnected', userId => {
   if (peers[userId]) {
     peers[userId].close();
-    const videoElement = document.querySelector(`#${userId}`);
+    const videoElement = document.getElementById(userId); // Use getElementById instead of querySelector
     if (videoElement) {
-      setTimeout(() => {
+      peers[userId].on('close', () => {
         videoElement.remove();
-      }, 500); // You can adjust the delay (in milliseconds) as needed
+      });
     }
   }
 });
+
 
 
 
