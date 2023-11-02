@@ -54,16 +54,15 @@ navigator.mediaDevices.getUserMedia({
 
 socket.on('user-disconnected', userId => {
   if (peers[userId]) {
-    peers[userId].close();
-    const videoElement = document.getElementById(userId); // Use getElementById instead of querySelector
+    peers[userId].close(); // Close the peer connection
+    const videoElement = document.getElementById(userId);
     if (videoElement) {
-      peers[userId].on('close', () => {
-        videoElement.remove();
-        delete peers[userId];
-      });
+      videoElement.remove(); // Remove the video element from the DOM
     }
+    delete peers[userId]; // Remove the peer connection from the peers object
   }
 });
+
 
 
 
