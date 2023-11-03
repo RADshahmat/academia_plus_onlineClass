@@ -177,7 +177,7 @@ const setPlayVideo = () => {
   `
   document.querySelector('.main__video_button').innerHTML = html;
 }
-const leaveMeetingBtn = document.getElementById('leaveMeetingBtn');
+const leaveMeetingBtn = document.querySelector('.leave_meeting');
 
 leaveMeetingBtn.addEventListener('click', () => {
    socket.emit('disconnect'); // Emit a 'disconnect' event when the button is clicked
