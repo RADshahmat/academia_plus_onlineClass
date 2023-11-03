@@ -54,15 +54,24 @@ navigator.mediaDevices.getUserMedia({
 
 window.addEventListener('beforeunload', () => {
   // Notify the server that the user is disconnecting
-  socket.emit('disconnecting', ROOM_ID);
+  socket.emit('disconnecting', ROOM_ID, myPeer.id);
 });
 
 // ...
 
-socket.on('disconnecting', roomId => {
+socket.on('disconnecting', (roomId, userId) => {
   // Handle the user disconnecting event from the server
-  socket.to(roomId).emit('user-disconnected', myPeer.id);
+  socket.to(roomId).emit('user-disconnected', userId);
+  const videoElement = document.getElementById(userId); // Get the video element
+  if (videoElement) {
+    videoElement.remove(); // Remove the video element from the DOM
+  }
+  if (peers[userId]) {
+    peers[userId].close(); // Close the peer connection
+    delete peers[userId]; // Remove the peer connection from the peers object
+  }
 });
+
 
 socket.on('user-disconnected', userId => {
   if (peers[userId]) {
