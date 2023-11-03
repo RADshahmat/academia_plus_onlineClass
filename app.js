@@ -22,6 +22,9 @@ app.get('/', (req, res) => {
 app.get('/:room', (req, res) => {
   res.render('room', { roomId: req.params.room })
 })
+app.get('/kaka', (req, res) => {
+  res.render('kaka')
+})
 
 io.on('connection', socket => {
   socket.on('join-room', (roomId, userId) => {
@@ -42,7 +45,8 @@ io.on('connection', socket => {
     // Handle disconnect event
     socket.on('disconnect', () => {
       io.to(roomId).emit('user-disconnected', userId);
-      socket.leave(roomId); // Make sure the socket leaves the room
+      socket.leave(roomId);
+      res.redirect('kaka'); // Make sure the socket leaves the room
     });
   });
 });
