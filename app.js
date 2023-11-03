@@ -46,7 +46,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () => {
       io.to(roomId).emit('user-disconnected', userId);
       socket.leave(roomId);
-      res.redirect('kaka'); // Make sure the socket leaves the room
+       // Make sure the socket leaves the room
     });
   });
 });

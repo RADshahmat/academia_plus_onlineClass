@@ -180,5 +180,6 @@ const setPlayVideo = () => {
 const leaveMeetingBtn = document.querySelector('.leave_meeting');
 
 leaveMeetingBtn.addEventListener('click', () => {
-   socket.emit('disconnect'); // Emit a 'disconnect' event when the button is clicked
+  socket.disconnect();
+  window.location.href = '/kaka';// Emit a 'disconnect' event when the button is clicked
 });
