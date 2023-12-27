@@ -8,9 +8,9 @@ const myPeer = new Peer(undefined, {
     iceServers: [
       { urls: 'stun:stun.l.google.com:19302' }, // Google's public STUN server
       {
-        urls: "relay1.expressturn.com:3478",
-        username: "efG2S65EL800875FIW",
-        credential: "ehoHkLr5VSBbQDh6",
+        urls: "turn:standard.relay.metered.ca:80",
+        username: "1d58dc82e6799dde31d6723d",
+        credential: "e6+poNAQkZ9m/22y",
       }
     ],
     maxConnections: 10
