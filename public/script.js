@@ -181,5 +181,5 @@ const leaveMeetingBtn = document.querySelector('.leave_meeting');
 
 leaveMeetingBtn.addEventListener('click', () => {
   socket.disconnect();
-  window.location.href = '/kaka';// Emit a 'disconnect' event when the button is clicked
-});
+  window.location.href = '/kaka';
+})
